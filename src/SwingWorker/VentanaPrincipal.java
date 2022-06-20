@@ -1,6 +1,8 @@
 package SwingWorker;
 
-
+import java.awt.Frame;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.SwingWorker;
@@ -10,7 +12,6 @@ import javax.swing.SwingWorker;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author Cristian
@@ -18,12 +19,15 @@ import javax.swing.SwingWorker;
 public class VentanaPrincipal extends javax.swing.JFrame {
 
     String datoTransferido = "";
-    
+    VentanaPrincipal vp = null;
+
     /**
      * Creates new form VentanaPrincipal
      */
     public VentanaPrincipal() {
         initComponents();
+        vp = this;
+
     }
 
     /**
@@ -141,12 +145,34 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        GuiWorker gw = new GuiWorker(this);
-        gw.execute();
+//        GuiWorker gw = new GuiWorker(this);
+//        gw.execute();
+//        new SwingWorker<Void, VentanaPrincipal>() {
+//            @Override
+//            public Void doInBackground() {
+                VentanaDialogo vd = new VentanaDialogo(vp, false);
+                vd.setBounds(0, 0, 400, 300);
+                vd.setVisible(true);
+//                return null;
+//            }
+//        }.execute();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        new SwingWorker<Void, VentanaPrincipal>() {
+            @Override
+            public Void doInBackground() {
         jLabel4.setText("");
+        for (int i = 0; i < 10; i++) {
+            System.out.println(i);
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }return null;
+                }}.execute();
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -196,24 +222,25 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 }
 
-class GuiWorker extends SwingWorker{
+class GuiWorker extends SwingWorker {
 
     JFrame frame = null;
-    
-    public GuiWorker(JFrame frame){
+
+    public GuiWorker(JFrame frame) {
         this.frame = frame;
     }
-    
-     @Override
-   protected Void doInBackground() throws Exception {
+
+    @Override
+    protected Void doInBackground() throws Exception {
         VentanaDialogo vd = new VentanaDialogo(frame, true);
         vd.setBounds(0, 0, 400, 300);
         vd.setVisible(true);
         return null;
-   }
-   @Override
-   protected void done() {
-      
-   }
-    
+    }
+
+    @Override
+    protected void done() {
+
+    }
+
 }
